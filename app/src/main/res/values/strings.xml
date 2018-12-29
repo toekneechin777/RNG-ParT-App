@@ -9,4 +9,10 @@
     <string name="create_group_title">Welcome to Creating Groups</string>
     <string name="go_back">Back</string>
     <string name="button">Button</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="interval">Interval</string>
+    <string name="roll">Roll</string>
+    <string name="integer">Integer</string>
+    <string name="other_num">Any number</string>
 </resources>
