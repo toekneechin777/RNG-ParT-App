@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">RNG ParT</string>
+    <string name="menu_cmd">Choose a random generator \n for your game</string>
+    <string name="draw_name">Drawing names</string>
+    <string name="make_groups">Create groups</string>
+    <string name="basic">Basic Dice</string>
+    <string name="basic_dice_title">Welcome to Basic Dice</string>
+    <string name="draw_names_title">Welcome to Drawing Names</string>
+    <string name="create_group_title">Welcome to Creating Groups</string>
+    <string name="go_back">Back</string>
+    <string name="button">Button</string>
+</resources>
