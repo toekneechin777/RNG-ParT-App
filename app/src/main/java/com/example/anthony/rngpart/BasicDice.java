@@ -19,6 +19,7 @@ public class BasicDice extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_basic_dice);
         rngColors = getResources().getIntArray(R.array.rng_colors);
         rngColorNames = getResources().getStringArray(R.array.rng_colors_name);
