@@ -58,6 +58,15 @@ public class BasicDice extends AppCompatActivity {
         colorBox.setText(randColorName);
     }
 
+    public void flip_coin(View v) {
+        TextView coinBox = (TextView) findViewById(R.id.coin);
+        int coin_index = new Random().nextInt(2);
+        if(coin_index != 0)
+            coinBox.setText("Heads");
+        else
+            coinBox.setText("Tails");
+    }
+
     private void showError(EditText et) {
         Animation shake = AnimationUtils.loadAnimation(this,R.anim.shake);
         et.startAnimation(shake);

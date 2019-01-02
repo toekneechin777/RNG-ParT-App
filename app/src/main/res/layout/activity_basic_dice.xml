@@ -177,4 +177,29 @@
         app:layout_constraintTop_toBottomOf="@id/color_roll"
         app:layout_constraintVertical_weight="5" />
 
+    <Button
+        android:id="@+id/coin_flip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="175dp"
+        android:onClick="flip_coin"
+        android:text="@string/coin_flip"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/color"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/coin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/coin_flip"
+        tools:layout_editor_absoluteX="192dp"
+        tools:layout_editor_absoluteY="425dp" />
+
 </android.support.constraint.ConstraintLayout>
