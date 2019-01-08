@@ -17,4 +17,5 @@
     <string name="other_num">Any number</string>
     <string name="random_color">Roll a random color</string>
     <string name="coin_flip">Flip a coin</string>
+    <string name="draw_name_btn">Shuffle &amp; Draw Names</string>
 </resources>
