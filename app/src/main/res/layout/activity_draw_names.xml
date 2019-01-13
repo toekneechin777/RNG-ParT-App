@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,21 +12,28 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_alignParentBottom="true">
+
         <Button
+            android:id="@+id/back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/go_back"
-            android:onClick="back"/>
+            android:onClick="back"
+            android:text="@string/go_back" />
+
         <Button
+            android:id="@+id/shuffle_draw_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/draw_name_btn"/>
+            android:onClick="shuffle_draw"
+            android:text="@string/draw_name_btn" />
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scroll_names"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/buttons">
+        android:layout_above="@id/buttons"
+        android:layout_alignParentTop="true">
         <!--Scrollable content here-->
         <LinearLayout
             android:id="@+id/ll_names"
@@ -35,18 +43,83 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/activity_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/draw_names_title"
                 android:textSize="25sp" />
 
-            <Spinner
-                android:id="@+id/num_names"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:drawable/btn_dropdown"
-                android:spinnerMode="dropdown" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <CheckBox
+                    android:id="@+id/check_replace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/replacement" />
+
+                <CheckBox
+                    android:id="@+id/check_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/email" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/num_draw"
+                    android:layout_width="95dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number" />
+
+                <TextView
+                    android:id="@+id/num_draw_cmd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/draw_num_name"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/num_names"
+                    android:layout_width="93dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:spinnerMode="dropdown" />
+
+                <TextView
+                    android:id="@+id/num_names_cmd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/num_names"
+                    android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

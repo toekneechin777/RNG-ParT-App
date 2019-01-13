@@ -18,4 +18,10 @@
     <string name="random_color">Roll a random color</string>
     <string name="coin_flip">Flip a coin</string>
     <string name="draw_name_btn">Shuffle &amp; Draw Names</string>
+    <string name="draw_num_name">Draw how many names?</string>
+    <string name="num_names">How many names total?</string>
+    <string name="replacement">With Replacement?</string>
+    <string name="email">Send Message?</string>
+    <string name="reshuffle">Redraw</string>
+    <string name="draw_results">Names Drawn</string>
 </resources>

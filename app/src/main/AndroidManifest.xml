@@ -19,7 +19,8 @@
         <activity android:name=".BasicDice" />
         <activity android:name=".DrawNames" />
         <activity android:name=".CreateGroup" />
-        <activity android:name=".MainMenu"></activity>
+        <activity android:name=".MainMenu" />
+        <activity android:name=".Names"></activity>
     </application>
 
 </manifest>

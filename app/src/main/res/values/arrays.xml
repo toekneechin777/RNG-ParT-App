@@ -27,7 +27,7 @@
     </string-array>
 
     <string-array name="draw_names_num_options">
-        <item>Choose number of names</item>
+        <item>Total names</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
