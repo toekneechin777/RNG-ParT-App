@@ -23,8 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 public class DrawNames extends AppCompatActivity {
     private Spinner numNames;
@@ -55,27 +58,36 @@ public class DrawNames extends AppCompatActivity {
         numNames.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                recordNames();
                 clearNames(ll);
 
                 if(position == 0) {
                     // Do nothing
                     numOfNames = -1;
                 } else {
-                    Toast.makeText(parent.getContext(), "You chose " + parent.getItemAtPosition(position).toString() + " num of names",
-                            Toast.LENGTH_SHORT).show();
                     numOfNames = Integer.parseInt(parent.getItemAtPosition(position).toString());
 
+                    Iterator<String> it = namesList.iterator();
                     for(int i = 0; i < numOfNames; i++) {
                         EditText newName = new EditText(getApplicationContext());
                         ViewGroup.LayoutParams newNamesParams = new ViewGroup.LayoutParams(3*screenWidth/4, ViewGroup.LayoutParams.WRAP_CONTENT);
                         newName.setLayoutParams(newNamesParams);
                         newName.setId(namesID);
+                        try {
+                            String name = it.next();
+                            if (name != null)
+                                newName.setText(name, TextView.BufferType.EDITABLE);
+                        } catch (NoSuchElementException e) {
+
+                        }
                         newName.setHint("Enter a name #" + (i+1));
                         newName.setGravity(Gravity.CENTER);
                         ll.addView(newName);
                         namesID++;
                     }
                 }
+
+                namesList.clear();
             }
 
             @Override
@@ -121,21 +133,11 @@ public class DrawNames extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         drawNumBox.setText(savedInstanceState.getString("DRAWNUM"), TextView.BufferType.EDITABLE);
-        int pos = savedInstanceState.getInt("NUMNAMES_POS");
-        numNames.setSelection(pos);
-        namesList = savedInstanceState.getStringArrayList("NAMESLIST");
-        int group_num = ll.getChildCount();
-        int viewindex = 0;
-        EditText ename;
-        Iterator<String> it = namesList.iterator();
-        for(int i = 0; i < group_num; i++) {
-            View view = ll.getChildAt(viewindex);
-            if(view instanceof EditText) {
-                ename = (EditText) view;
-                ename.setText(it.next());
-            }
-            else
-                viewindex++;
+        numNames.setSelection(savedInstanceState.getInt("NUMNAMES_POS"));
+        try {
+            namesList = savedInstanceState.getStringArrayList("NAMESLIST");
+        } catch (NullPointerException e) {
+            namesList = new ArrayList<String>();
         }
         Toast.makeText(this, "Restored State",
                 Toast.LENGTH_LONG).show();
@@ -146,7 +148,12 @@ public class DrawNames extends AppCompatActivity {
         super.onPause();
         SharedPreferences settings = getSharedPreferences("MYPREF", 0);
         SharedPreferences.Editor editor = settings.edit();
+        editor.clear();
         editor.putString("DRAWNUM", drawNumBox.getText().toString());
+        editor.putInt("NUMNAMES_POS", numNames.getSelectedItemPosition());
+        Set<String> nameSet = new HashSet<String>();
+        nameSet.addAll(namesList);
+        editor.putStringSet("NAMESLIST", nameSet);
         editor.commit();
         Toast.makeText(this, "Paused State",
                 Toast.LENGTH_LONG).show();
@@ -157,7 +164,12 @@ public class DrawNames extends AppCompatActivity {
         super.onStop();
         SharedPreferences settings = getSharedPreferences("MYPREF", 0);
         SharedPreferences.Editor editor = settings.edit();
+        editor.clear();
         editor.putString("DRAWNUM", drawNumBox.getText().toString());
+        editor.putInt("NUMNAMES_POS", numNames.getSelectedItemPosition());
+        Set<String> nameSet = new HashSet<String>();
+        nameSet.addAll(namesList);
+        editor.putStringSet("NAMESLIST", nameSet);
         editor.commit();
         Toast.makeText(this, "Stop State",
                 Toast.LENGTH_LONG).show();
@@ -168,6 +180,12 @@ public class DrawNames extends AppCompatActivity {
         super.onRestart();
         SharedPreferences settings = getSharedPreferences("MYPREF", 0);
         drawNumBox.setText(settings.getString("DRAWNUM","1"), TextView.BufferType.EDITABLE);
+        numNames.setSelection(settings.getInt("NUMNAMES_POS", 1));
+        try {
+            namesList = new ArrayList<String>(settings.getStringSet("NAMESLIST", null));
+        } catch (NullPointerException e) {
+            namesList = new ArrayList<String>();
+        }
         Toast.makeText(this, "Restart State",
                 Toast.LENGTH_LONG).show();
 
@@ -178,9 +196,16 @@ public class DrawNames extends AppCompatActivity {
         super.onResume();
         SharedPreferences settings = getSharedPreferences("MYPREF", 0);
         drawNumBox.setText(settings.getString("DRAWNUM","1"), TextView.BufferType.EDITABLE);
+        numNames.setSelection(settings.getInt("NUMNAMES_POS", 1));
+        try {
+            namesList = new ArrayList<String>(settings.getStringSet("NAMESLIST", null));
+        } catch (NullPointerException e) {
+            namesList = new ArrayList<String>();
+        }
         Toast.makeText(this, "Resume State",
                 Toast.LENGTH_LONG).show();
     }
+
 
     public void back(View v) {
         Intent returnToMenu = new Intent(this, MainMenu.class);
@@ -202,6 +227,17 @@ public class DrawNames extends AppCompatActivity {
             return;
         }
 
+        recordNames();
+
+        Intent drawintent = new Intent(this, Names.class);
+        drawintent.putStringArrayListExtra("NAME_LIST", (ArrayList) namesList);
+        drawintent.putExtra("DRAW_NUM", drawNumInt);
+        drawintent.putExtra("CHECK_REPLACE", isReplace);
+        startActivity(drawintent);
+
+    }
+
+    private void recordNames() {
         String name;
         View view;
         EditText ename;
@@ -215,13 +251,6 @@ public class DrawNames extends AppCompatActivity {
                     namesList.add(name);
             }
         }
-
-        Intent drawintent = new Intent(this, Names.class);
-        drawintent.putStringArrayListExtra("NAME_LIST", (ArrayList) namesList);
-        drawintent.putExtra("DRAW_NUM", drawNumInt);
-        drawintent.putExtra("CHECK_REPLACE", isReplace);
-        startActivity(drawintent);
-
     }
 
     private void clearNames(ViewGroup group) {
